@@ -1,0 +1,88 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    width: 100%;
+    margin: 0;
+}
+#topfixedbar{
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #fff;
+    padding: 10px 20px 20px 20px;
+    align-items: center;
+    width: 100%;
+}
+#searchfield{
+    width:inherit;
+    outline: none;
+    border: none;
+    font-size: large;
+    box-shadow: 0px 0px 20px rgb(214, 214, 214);
+    padding: 12px 20px;
+    border-radius: 24px;
+}
+#matchcasecheckbox{
+    width: 25px;
+    height: 25px;
+    margin: 0 0px 0 30px;
+}
+label{
+    text-wrap: nowrap;
+    font-size: large;
+    margin: 0 20px 0 4px;
+}
+#updatedatabasebtn{
+    outline: none;
+    border-radius: 20px;
+    text-transform: capitalize;
+    background: lightseagreen;
+    border: none;
+    font-size: large;
+    padding: 10px 20px;
+    color: #fff;
+    text-wrap:nowrap;
+    box-shadow: 0px 0px 20px rgb(214, 214, 214);
+}
+#updatedatabasebtn:hover{
+    cursor: pointer;
+}
+#tasks-container{
+    margin: auto;
+    display: block;
+    margin-top: 90px;
+    width: 92%;
+}
+.task{
+    width: 100%;
+    display: flex;
+    margin: 25px 10px 25px 0px;
+    padding: 35px;
+    box-shadow: 0px 0px 20px rgb(214, 214, 214);
+    border-radius: 20px;
+}
+.task-left-container{
+    display: inline-block;
+    width: inherit;
+    margin-right: 20px;
+}
+.jobid-heading{
+    font-size: x-large;
+    font-weight: 800;
+}
+.jobid{
+    font-size: x-large;
+}
+.text-content{
+    font-size: large;
+    text-wrap:wrap;
+}
+.task-image{
+    display: inline-block;
+    width: 50%;
+    max-width: 500px;
+    height: fit-content;
+    border: 1px solid black;
+}
