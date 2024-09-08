@@ -2,32 +2,51 @@ var tasks;
 $(document).ready(function () {
 
     updateTaskslist();
-    
-
-    // $('#search-box').keyup(function (event) { 
-    //     $('#searched-books').html("");
-    //     var keyword = $(this).val();
-    //     for(let i=0; i<books.length; i++)
-    //     {
-    //         if(keyword == "")
-    //         {
-    //             break;
-    //         }
-    //         var title = books[i].title;
-    //         if((title.toLowerCase()).includes(keyword.toLowerCase()))
-    //         {
-    //             addBookInSearchList(books[i].title, books[i].author, books[i].imageUrl);
-    //         }
-    //     }
-    // });
 
 
-    
-    
+    $('#searchfield').keyup(function (event) {
+        performSearch($(this).val());
+    });
+
+
+    $('#matchcasecheckbox').change(function (e) {
+        performSearch($('#searchfield').val());
+    });
+
 });
 
 
-
+function performSearch(keyword)
+{
+    $('#tasks-container').html("");
+    for (let i = 0; i < tasks.length; i++) {
+        if (keyword == "") {
+            break;
+        }
+        keyword = keyword.toLowerCase();
+        let description = tasks[i].Description;
+        description = description.toLowerCase();
+        if (document.getElementById('matchcasecheckbox').checked) {
+            if (description.includes(keyword)) {
+                addTaskInList(tasks[i].Jobid, tasks[i].Description, tasks[i].Imageurl);
+            }
+        }
+        else {
+            let words = keyword.split(' ');
+            for (let j = 0; j < words.length; j++) {
+                if (!description.includes(words[j])) {
+                    break;
+                }
+                else if (j == words.length - 1 && description.includes(words[j])) {
+                    addTaskInList(tasks[i].Jobid, tasks[i].Description, tasks[i].Imageurl);
+                }
+                else {
+                    continue;
+                }
+            }
+        }
+    }
+}
 
 
 function addTaskInList(jobid, description, imageurl) {
@@ -46,20 +65,19 @@ function addTaskInList(jobid, description, imageurl) {
 
 
 
-function updateTaskslist()
-{
+function updateTaskslist() {
     $.ajax({
         type: "GET",
         url: "tasks.json",
         dataType: "json",
         success: function (data) {
             tasks = data;
-            for(let i=0; i<tasks.length; i++)
-            {
-                addTaskInList(tasks[i].Jobid,tasks[i].Description,tasks[i].Imageurl);
-            }
+            // for(let i=0; i<tasks.length; i++)
+            // {
+            //     addTaskInList(tasks[i].Jobid,tasks[i].Description,tasks[i].Imageurl);
+            // }
         },
-        error: function(error){
+        error: function (error) {
             console.log("Book Server Connection Error");
         }
     });
