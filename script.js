@@ -1,24 +1,55 @@
-var tasks;
+var tasksold;
+var tasksnew;
 $(document).ready(function () {
 
     updateTaskslist();
-
 
     $('#searchfield').keyup(function (event) {
         performSearch($(this).val());
     });
 
-
     $('#matchcasecheckbox').change(function (e) {
         performSearch($('#searchfield').val());
     });
 
+    $('#old').click(function (e) {
+        toggle('old');
+        performSearch($('#searchfield').val());
+    });
+
+    $('#new').click(function (e) {
+        toggle('new');
+        performSearch($('#searchfield').val());
+    });
 });
 
 
-function performSearch(keyword)
-{
+function toggle(button) {
+    const oldButton = document.getElementById('old');
+    const newButton = document.getElementById('new');
+
+    if (button === 'old') {
+        oldButton.classList.add('active');
+        newButton.classList.remove('active');
+    } else {
+        newButton.classList.add('active');
+        oldButton.classList.remove('active');
+    }
+}
+
+function performSearch(keyword) {
     $('#tasks-container').html("");
+    let tasks = null;
+    if ($('#old').hasClass('active')) {
+        tasks = tasksold;
+    }
+    else {
+        tasks = tasksnew;
+    }
+    if(tasks == null)
+    {
+        return;
+    }
     for (let i = 0; i < tasks.length; i++) {
         if (keyword == "") {
             break;
@@ -66,19 +97,34 @@ function addTaskInList(jobid, description, imageurl) {
 
 
 function updateTaskslist() {
+    updateoldtasklist();
+    updatenewtasklist();
+}
+
+function updateoldtasklist() {
     $.ajax({
         type: "GET",
-        url: "tasks.json",
+        url: "tasksold.json",
         dataType: "json",
         success: function (data) {
-            tasks = data;
-            // for(let i=0; i<tasks.length; i++)
-            // {
-            //     addTaskInList(tasks[i].Jobid,tasks[i].Description,tasks[i].Imageurl);
-            // }
+            tasksold = data;
         },
         error: function (error) {
-            console.log("Book Server Connection Error");
+            console.log("Error Loading Old Tasks List");
+        }
+    });
+}
+
+function updatenewtasklist() {
+    $.ajax({
+        type: "GET",
+        url: "tasksnew.json",
+        dataType: "json",
+        success: function (data) {
+            tasksnew = data;
+        },
+        error: function (error) {
+            console.log("Error Loading New Tasks List");
         }
     });
 }
